@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Панель управления телеграмм-бота</title>
+</head>
+<body>
+
+<h2 align="center">Панель телеграм бота</h2>
+<!-- Общее количество пользователей-->
+<a th:text="'Всего пользователей - ' + ${users.size()}"></a>
+<hr/>
+<!--// форма для изменения текста сообщения для нового товара-->
+<form th:method="POST" th:action="@{/stats/admin/edit/1}" id="forNew">
+  <!-- Старое сообщение-->
+  <br>
+  <label for="newText1">Текст для рассылки сообщения Купившим продукт:</label>
+  <p class='mem' th:text="${forNewText}">Обновление вашего продукта {H1 Продукта}. Посмотреть можно по ссылке: [ссылка Продукта]</p>
+<!--  Текст до названия товара-->
+
+  <input type="text" id="newText1" name="forNewText1" placeholder="Первая часть, до имени продукта.">
+
+<!--  Текст после названия товара. Не забыть про пробелы и знаки препинания!-->
+  <input type="text" id="newText2" name="forNewText2" placeholder="Вторая часть, после имени продукта.">
+
+</form>
+<button type="button" class="btn btn-primary" onclick="document.getElementById('forNew').submit();">Сохранить</button>
+<!--// Конец формы для изменения сообщения для нового товара-->
+
+<hr/>
+
+
+<!--// форма для изменения текста сообщения для нового товара-->
+<form th:method="POST" th:action="@{/stats/admin/edit/2}" id="forChange">
+  <br>
+  <label for="changeText1">Текст для рассылки сообщения о продукте Всем пользователям:</label>
+  <p class='mem' th:text="${forChangeText}"></p>
+  <!--  Текст до названия товара-->
+
+  <input type="text" id="changeText1" name="forChangeText1" placeholder="Первая часть, до имени продукта.">
+
+  <!--  Текст после названия товара. Не забыть про пробелы и знаки препинания!-->
+  <input type="text" id="changeText2" name="forChangeText2" placeholder="Вторая часть, после имени продукта.">
+</form>
+<button type="button" class="btn btn-primary" onclick="document.getElementById('forChange').submit();">Сохранить</button>
+<!--// Конец формы для изменения сообщения для нового товара-->
+
+<hr/>
+<br>
+<!-- Форма для отправки сообщения всем подписчикам -->
+<form th:method="POST" th:action="@{/stats/admin/sendMessage}" id="sendMessage">
+  <a>Произвольное сообщение для всех подписчиков телеграм-бота.</a>
+  <br>
+  <label for="changeText1">Введите текст для рассылки:</label>
+  <!--  Текст до названия товара-->
+  <br>
+  <input type="text" id="message" name="message" placeholder="Ваше сообщение">
+  <br>
+</form>
+<button type="button" class="btn btn-primary" onclick="document.getElementById('sendMessage').submit();">Отправить!</button>
+<hr/>
+
+<!--Тут начинается таблица с пользователями-->
+<h2 align="center">Список пользователей</h2>
+<table align="center" border="2" width="600">
+  <thead>
+  <tr>
+    <th>Имя пользователя</th>
+    <th>Ссылка</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td align="center">
+      <a th:text="${user.getUsername()}">username</a>
+    </td>
+    <td align="center">
+      <a th:href="@{https://t.me/{id}(id=${user.getUsername()})}" th:text="Перейти"></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<!-- Конец таблицы с пользователями -->
+</body>
+</html>
+
+<style>
+ body {
+  font-size: 19px;
+  line-height: 29px;
+  font-family: 'Open Sans', sans-serif;
+  max-width: 1290px;
+  margin: auto;
+  padding: 15px;
+  background: #f5f5f5;
+}
+tbody {
+  font-size: 0.85em;
+}
+thead {
+  background: #cecece;
+}
+tr{
+  font-size: 0.85em;
+}
+tr:hover {
+  background: #ddd;
+  font-size: 0.95em;
+}
+#newText2, #newText1, #changeText1, #changeText2, #message {
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  padding: 0 5px;
+}
+.btn.btn-primary {
+  padding: 15px 25px;
+  margin: 10px 0;
+  background: #686bfb;
+  color: #fff;
+  font-size: 0.9em;
+  border: solid 1px #3639b3;
+  text-shadow: 1px 2px 2px #000;
+  border-radius: 5px;
+}
+.btn-primary:hover {
+  color: #fff2c1;
+  background: #5355c6;
+  }
+  .btn-primary:active {
+  color: #e5ff33;
+  font-size: 0.8em;
+  }
+  .mem {
+  font-size: 0.8em;
+  padding: 0;
+  margin: 0;
+  color: #444;
+}
+</style>
+
